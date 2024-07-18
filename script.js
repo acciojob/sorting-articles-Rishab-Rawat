@@ -1,21 +1,28 @@
-//your JS code here. If required.
-describe('Sorted Articles', () => {
-  const baseUrl = 'http://localhost:3000';
+const bands = [
+  'The Plot in You',
+  'The Devil Wears Prada',
+  'Pierce the Veil',
+  'Norma Jean',
+  'The Bled',
+  'Say Anything',
+  'The Midway State',
+  'We Came as Romans',
+  'Counterparts',
+  'Oh, Sleeper',
+  'A Skylit Drive',
+  'Anywhere But Here',
+  'An Old Dog'
+];
 
-  it('should display the sorted articles list', () => {
-    cy.visit(baseUrl + "/main.html");
-    cy.get('#bands').should('be.visible');
+function strip(bandName) {
+  return bandName.replace(/^(a |an |the )/i, '').trim();
+}
 
-    // Wait for JavaScript to finish rendering
-    cy.wait(1000);
+const sortedBands = bands.sort((a, b) => strip(a).localeCompare(strip(b)));
 
-    cy.get('ul li:nth-child(1)').should('contain', 'Anywhere But Here');
-    cy.get('ul li:nth-child(2)').should('contain', 'The Bled');
-    cy.get('ul li:nth-child(3)').should('contain', 'Counterparts');
-    cy.get('ul li:nth-child(4)').should('contain', 'The Devil Wears Prada');
-    cy.get('ul li:nth-child(5)').should('contain', 'The Midway State');
-    cy.get('ul li:nth-child(6)').should('contain', 'Norma Jean');
-    cy.get('ul li:nth-child(7)').should('contain', 'Oh, Sleeper');
-    cy.get('ul li:nth-child(8)').should('contain', 'An Old Dog');
-  });
+const bandList = document.getElementById('bands');
+sortedBands.forEach(band => {
+  const li = document.createElement('li');
+  li.textContent = band;
+  bandList.appendChild(li);
 });
